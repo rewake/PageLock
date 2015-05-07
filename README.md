@@ -70,12 +70,12 @@ This setup would result in the following campaign flow:
 
 ## How to Install
 
-Installation is "simple".
+Installation is simple.
 
 1. Copy the file `redir.php` to your webserver
 2. Update the value for the `TARGET_PAGE` constant with your tracker URL
 3. Pick an encryption code, and set it for the `SEC` constant (e.g. `LockItUp!`)
-4. Edit your landing page (make sure it has a php extension) and include the PageLock Check code at the top. You can find the Check code in the `check.php` file in this repo
+4. Edit your landing page (make sure it has a `.php` file extension) and include the PageLock Check code at the top. You can find the Check code in the `check.php` file in this repo
 5. Change the value for the `EXPIRE_SECS` constant if you want your links to timeout less or greater then 1 hour. The default is 3600 seconds, i.e. 1 hour
 6. Make sure you update the `SEC` constant to the same encryption key as in step 3
 7. Lastly - update the code in the `invalidSig` function to show your fake page, or better redirect to a fallback campaign
@@ -83,11 +83,11 @@ Installation is "simple".
 
 ## Health warning
 
-This script ads an additional redirect to your campaign. If you keep LPCheck Redir on the same domain as your landing page then the additional latency should be negligeable.
+This script adds an additional redirect to your campaign. If you keep PageLock Redir on the same domain as your landing page then the additional latency should be negligeable.
 
 This script only helps to protect your tracker and landing page URL.
 
-If someone got hold of your LPCheck Redir URL, then they can still see your landing page.
+If someone got hold of your PageLock Redir URL, then they can still see your landing page.
 
 Of course there are [solutions to that as well](http://noipfraud.com).
 
