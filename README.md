@@ -1,4 +1,5 @@
 ![](logo2.png)
+
 **Protect your landing pages from spying eyes**
 
 Don't you hate it when your landing page URLs get captured by spy tools, or handed around by affiliates so they can rip them.
