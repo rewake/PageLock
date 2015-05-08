@@ -9,6 +9,8 @@ PageLock will help you prevent that.
 This is a simple PHP script to protect your landing page URL and prevent them from
 being viewed by users that did not come through your specific PageLock Redir link. Its free and open source.
 
+[Check our FAQ](https://github.com/noipfraud/PageLock/wiki/FAQ)
+
 
 ## What does it filter?
 
@@ -85,7 +87,7 @@ Installation is simple.
 
 This script adds an additional redirect to your campaign. If you keep PageLock Redir on the same domain as your landing page then the additional latency should be negligeable.
 
-This script only helps to protect your tracker and landing page URL.
+This script only helps to protect your tracker and landing page URL. It does add a small footprint to your destination URL (`&sig={signature}`) but we dont expect this to be a major issue.
 
 If someone got hold of your PageLock Redir URL, then they can still see your landing page.
 
