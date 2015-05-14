@@ -13,9 +13,9 @@ $encSig = urlencode(strtr($sig, '+/', '-_'));
 // build redirect URL
 $goto = TARGET_PAGE;
 if (strpos($goto, '?') !== false)
-    $goto .= '&sig='.$encSig;
+    $goto .= '&sig='.$encSig.'&'.$_SERVER['QUERY_STRING'];
 else
-    $goto .= '?sig='.$encSig;
+    $goto .= '?sig='.$encSig.'&'.$_SERVER['QUERY_STRING'];
 
 // perform redirect
 header('Location: '.$goto, true, 301);
