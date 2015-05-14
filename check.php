@@ -4,7 +4,7 @@ define('EXPIRE_SECS', 3600);
 
 // encryption key, change this value, make sure its the same in both files
 define('SEC', 'LockItUp!');
-
+define('TOKEN','sig');
 
 function invalidSig() {
     // output some text/html
@@ -17,7 +17,7 @@ function invalidSig() {
 
 // check signature
 $sig = array();
-$sig['raw'] = (!empty($_GET['sig']) ? $_GET['sig'] : invalidSig());
+$sig['raw'] = (!empty($_GET[TOKEN]) ? $_GET[TOKEN] : invalidSig());
 
 $sig['parts'] = explode('.', $sig['raw']);
 if (count($sig['parts']) != 2) invalidSig();

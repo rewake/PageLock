@@ -4,6 +4,7 @@ define('TARGET_PAGE', 'http://mytracker.com/page/?camp=23lkkjlk2j');
 
 // encryption key, change this value, make sure its the same in both files
 define('SEC', 'LockItUp!');
+define('TOKEN','sig');
 
 // build signature
 $utc=time();
@@ -13,9 +14,9 @@ $encSig = urlencode(strtr($sig, '+/', '-_'));
 // build redirect URL
 $goto = TARGET_PAGE;
 if (strpos($goto, '?') !== false)
-    $goto .= '&sig='.$encSig.'&'.$_SERVER['QUERY_STRING'];
+    $goto .= '&'.TOKEN.'='.$encSig.'&'.$_SERVER['QUERY_STRING'];
 else
-    $goto .= '?sig='.$encSig.'&'.$_SERVER['QUERY_STRING'];
+    $goto .= '?'.TOKEN.'='.$encSig.'&'.$_SERVER['QUERY_STRING'];
 
 // perform redirect
 header('Location: '.$goto, true, 301);
