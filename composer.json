@@ -1,0 +1,20 @@
+{
+  "name": "rewake/PageLock",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "author's name",
+      "email": "email@example.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Rewake\\": "src/Rewake"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "8.0.2"
+  }
+}
