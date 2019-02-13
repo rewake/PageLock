@@ -1,12 +1,13 @@
 {
-  "name": "rewake/PageLock",
-  "description": "description_text",
+  "name": "rewake/pagelock",
+  "type": "library",
+  "description": "Generates and Validates Page Lock Signatures",
   "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
-      "name": "author's name",
-      "email": "email@example.com"
+      "name": "Richard Komatz",
+      "email": "r.komatz@gmail.com"
     }
   ],
   "autoload": {
