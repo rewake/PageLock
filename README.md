@@ -1,4 +1,4 @@
-![](img/logo2.png)
+![](resources/img/logo2.png)
 
 **Protect your landing pages from spying eyes**
 
@@ -37,13 +37,13 @@ PageLock will work with all of the above trackers. It even works if you don't ha
 
 In general, campaigns have the following standard flow:
 
-![](img/campaign1.png)
+![](resources/img/campaign1.png)
 
 PageLock protects the Landing Page by inserting a custom redirect before your tracker and some verification code on your lander.
 
 It looks something like this:
 
-![](img/campaign2.png)
+![](resources/img/campaign2.png)
 
 The PageLock script consists of 2 parts:
 
