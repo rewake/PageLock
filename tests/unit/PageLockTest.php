@@ -47,6 +47,60 @@ class PageLockTest extends TestCase
 
     /**
      * @test
+     * @testdox Can verify a generated signature when remote ip address is present
+     */
+    public function can_verify_signature_with_remote_ip()
+    {
+        // Set X-Forwarded-For
+        $_SERVER['REMOTE_ADDR'] = '203.0.113.195';
+
+        // Instantiate Page Lock class
+        $pl = new PageLock();
+
+        // Generate signature
+        $s = $pl->generate();
+
+        echo "Generated signature: " . $s;
+
+        // Make sure signature is not empty
+        $this->assertNotEmpty($s);
+
+        // Make sure signature is a string
+        $this->assertTrue(is_string($s));
+
+        // Validate the signature
+        $this->assertTrue($pl->validate($s));
+    }
+
+    /**
+     * @test
+     * @testdox Can verify a generated signature when server uses x-forward-for IPs
+     */
+    public function can_verify_signature_with_x_forwarded_for_ips()
+    {
+        // Set X-Forwarded-For
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = 'X-Forwarded-For: 203.0.113.195, 70.41.3.18, 150.172.238.178';
+
+        // Instantiate Page Lock class
+        $pl = new PageLock();
+
+        // Generate signature
+        $s = $pl->generate();
+
+        echo "Generated signature: " . $s;
+
+        // Make sure signature is not empty
+        $this->assertNotEmpty($s);
+
+        // Make sure signature is a string
+        $this->assertTrue(is_string($s));
+
+        // Validate the signature
+        $this->assertTrue($pl->validate($s));
+    }
+
+    /**
+     * @test
      * @testdox Can form URL with signature
      * @depends can_generate_signature
      */
