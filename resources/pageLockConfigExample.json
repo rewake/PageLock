@@ -1,0 +1,17 @@
+{
+  "expireSeconds": 60,
+  "schedule": {
+    "tz": "America/New_York",
+    "weekday" : {
+      "from": "10:00",
+      "to": "16:00"
+    },
+    "weekend": {
+      "from": "10:00",
+      "to": "14:00"
+    }
+  },
+  "randomize": {
+    "percentShown": 100
+  }
+}
