@@ -9,6 +9,22 @@ class PageLockTest extends TestCase
 {
     /**
      * @test
+     * @testdox Can load config json file
+     */
+    public function can_load_config()
+    {
+        // Instantiate Page Lock class
+        $pl = new PageLock();
+
+        // Load page lock config
+        $lcr = $pl->loadConfig(dirname(dirname(dirname(__FILE__))) . '/resources/pageLockConfigExample.json');
+
+        // Make sure load config result is an instance of PageLock
+        $this->assertSame(get_class($lcr), PageLock::class);
+    }
+
+    /**
+     * @test
      * @testdox Can generate a Page Lock signature
      */
     public function can_generate_signature()
@@ -43,6 +59,36 @@ class PageLockTest extends TestCase
 
         // Validate the signature
         $this->assertTrue($pl->validate($signature));
+    }
+
+    /**
+     * @test
+     * @testdox Can verify a generated signature
+     */
+    public function can_verify_signature_with_custom_expire_time()
+    {
+        // Instantiate Page Lock class
+        $pl = new PageLock();
+
+        // Load page lock config
+        $lcr = $pl->loadConfig(dirname(dirname(dirname(__FILE__))) . '/resources/pageLockConfigExample.json');
+
+        // Generate signature
+        $s = $pl->generate();
+
+        echo "Generated signature: " . $s;
+
+        // Make sure signature is not empty
+        $this->assertNotEmpty($s);
+
+        // Make sure signature is a string
+        $this->assertTrue(is_string($s));
+
+        // Make sure load config result is an instance of PageLock
+        $this->assertSame(get_class($lcr), PageLock::class);
+
+        // Validate the signature
+        $this->assertTrue($pl->validate($s));
     }
 
     /**
