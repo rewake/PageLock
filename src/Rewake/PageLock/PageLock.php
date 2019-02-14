@@ -7,10 +7,11 @@ class PageLock
 {
     private $defaultSalt = 'qV6c1KBGbxAJYNOB6qkXJQhehXPpo2qD';
     private $defaultUrlToken = 's';
+    private $defaultIp = '1.1.1.1';
     private $expireSeconds = 3600;
     private $throwsExceptions;
 
-    public function __construct($throwExceptions = true)
+    public function __construct($throwExceptions = false)
     {
         // Set exception throw flag
         $this->throwsExceptions = $throwExceptions;
@@ -22,7 +23,7 @@ class PageLock
         $time = time();
 
         // Build and return signature
-        return base64_encode($time . '.' . $this->userHash($time, $salt));
+        return base64_encode($time . '.' . base64_encode($this->userHash($time, $salt)));
     }
 
     public function validate($signature, $salt = null)
@@ -37,25 +38,25 @@ class PageLock
         // Decode signature to get raw data
         if (!$rawData = base64_decode($signature)) {
 
-            $this->handleError("Signature could not be decoded");
+            return $this->handleError("Signature could not be decoded");
         }
 
         // Get signature data in parts
         if ((!$data = explode('.', $rawData)) || empty($data) || count($data) != 2) {
 
-            $this->handleError("Signature data was incomplete");
+            return $this->handleError("Signature data was incomplete");
         }
 
         // Make sure lock has not expired
         if (!is_numeric($data[0]) || time() >= $data[0] + $this->expireSeconds) {
 
-            $this->handleError("Page lock has expired");
+            return $this->handleError("Page lock has expired");
         }
 
         // Validate lock hash
-        if ($this->userHash($data[0], $salt) != $data[1]) {
+        if ($this->userHash($data[0], $salt) != base64_decode($data[1])) {
 
-            $this->handleError("Invalid user hash");
+            return $this->handleError("Invalid user hash");
         }
 
         // If all validation has passed, return true
@@ -122,7 +123,7 @@ class PageLock
     {
         // Set remote address & UA if not set
         // TODO: we could potentially throw error here or have a flag to enforce data exists?
-        $remote = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '127.0.0.1';
+        $remote = $this->getIPv4();
         $ua = isset($_SERVER["HTTP_USER_AGENT"]) ? $_SERVER["HTTP_USER_AGENT"] : 'NOTSET';
 
         // See if salt was provided
@@ -154,5 +155,43 @@ class PageLock
             // Return false
             return false;
         }
+    }
+
+    private function getIPv4()
+    {
+        // Set raw IP to default IP
+        $rawIP = $this->defaultIp;
+
+        // See if we have x-forwarded-for IP(s)
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR']) {
+
+            // Explode x-forwarded-for into array
+            $rawIPs = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+
+            // Loop IPs
+            foreach ($rawIPs as $ip) {
+
+                // Trim IP
+                $ip = trim($ip);
+
+                // Make sure current IP is valid
+                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+
+                    // Store IP
+                    $rawIP = $ip;
+
+                    // Break loop
+                    break;
+                }
+            }
+
+        } else if (isset($_SERVER['REMOTE_ADDR'])) {
+
+            // Store remote IP if present and we do not have x-forwarded-for
+            $rawIP = $_SERVER['REMOTE_ADDR'];
+        }
+
+        // Return IP
+        return $rawIP;
     }
 }
