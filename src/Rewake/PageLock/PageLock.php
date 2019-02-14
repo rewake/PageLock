@@ -11,7 +11,7 @@ class PageLock
     private $defaultConfigFile = 'pageLockConfig.json';
     private $timezone = 'America/New_York';
     private $config;
-    private $expireSeconds = 3600;
+    private $expireSeconds = 300; // 5 minutes
     private $throwsExceptions;
 
     public function __construct($throwExceptions = false)
